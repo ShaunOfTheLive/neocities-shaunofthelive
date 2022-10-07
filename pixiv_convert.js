@@ -14,9 +14,7 @@ function pixivConvert(url) {
 
 function urlSubmit(event) {
     var inurl = document.getElementById('inurl').value;
-    console.log(inurl);
     var convurl = pixivConvert(inurl);
-    console.log(convurl);
     var outelement;
     if (convurl.startsWith('Error')) {
         outelement = document.createElement("b");
