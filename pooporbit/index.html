@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Poop orbit</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="drawing.js"></script>
+    <script src="objects.js"></script>
+  </head>
+  <body>
+    <canvas id="pooporbit" width="400" height="400"></canvas>
+    <script>
+      let context = document.getElementById("pooporbit").getContext("2d");
+
+      // x, y = 0, 0; cartesian centre
+      let earth = new Planet(0, 0, 32, 32,
+                             "microsoft_earth_americas.png");
+      // 90 degrees: start at the top (Cartesian standard)
+      // dps of -60: negative so we travel clockwise (Cartesian standard)
+      let poop = new Satellite(context.canvas.width / 4, 90, -60, 32, 32,
+                               "microsoft_poop.png",
+                               earth);
+
+      function frame() {
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        draw(context);
+        update();
+      }
+
+      function update(elapsed) {
+        poop.update(elapsed);
+        //earth.update(elapsed);
+        // earth does nothing
+      }
+
+      function draw(ctx) {
+        poop.draw(ctx);
+        earth.draw(ctx);
+      }
+
+      var previous, elapsed;
+      function frame(timestamp) {
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        if (!previous) previous = timestamp;
+        elapsed = timestamp - previous;
+        update(elapsed / 1000);
+        draw(context, true);
+        previous = timestamp;
+        window.requestAnimationFrame(frame);
+      }
+      window.requestAnimationFrame(frame);
+    </script>
+  </body>
+</html>

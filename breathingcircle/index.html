@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>breathing circle</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="drawing.js"></script>
+    <script src="objects.js"></script>
+  </head>
+  <body>
+    <canvas id="pooporbit" width="640" height="480"></canvas>
+    <script>
+      let context = document.getElementById("pooporbit").getContext("2d");
+
+      //function BreathingCircle(x, y, min_r, max_r, speed) {
+      let theBreathingCircle = new BreathingCircle(context.canvas.width / 2, context.canvas.height / 2, 50, 200, 100);
+
+      function frame() {
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        draw(context);
+        update();
+      }
+
+      function update(elapsed) {
+        theBreathingCircle.update(elapsed);
+      }
+
+      function draw(ctx) {
+        theBreathingCircle.draw(ctx);
+      }
+
+      var previous, elapsed;
+      function frame(timestamp) {
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        if (!previous) previous = timestamp;
+        elapsed = timestamp - previous;
+        update(elapsed / 1000);
+        draw(context, true);
+        previous = timestamp;
+        window.requestAnimationFrame(frame);
+      }
+      window.requestAnimationFrame(frame);
+    </script>
+  </body>
+</html>
+
