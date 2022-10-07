@@ -17,10 +17,25 @@ function urlSubmit(event) {
     console.log(inurl);
     var convurl = pixivConvert(inurl);
     console.log(convurl);
-    outurl.textContent = `${convurl}`;
+    var outelement;
+    if (convurl.startsWith('Error')) {
+        outelement = document.createElement("b");
+        const textnode = document.createTextNode(convurl);
+        outelement.appendChild(textnode);
+    } else {
+        outelement = document.createElement("a");
+        const textnode = document.createTextNode(convurl);
+        outelement.appendChild(textnode);
+        outelement.href = convurl;
+    }
+    if (outp.firstChild) {
+        outp.replaceChild(outelement, outp.firstChild);
+    } else {
+        outp.appendChild(outelement);
+    }
     event.preventDefault();
 }
 
 const form = document.getElementById('form');
-const outurl = document.getElementById('outurl');
+const outp = document.getElementById('outp');
 form.addEventListener('submit', urlSubmit);
